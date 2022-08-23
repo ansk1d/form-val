@@ -1,7 +1,11 @@
 import React, { useReducer } from 'react';
 
 const initialState = {
-    name:{
+    firstName:{
+        value: '',
+        error: null
+    },
+    lastName:{
         value: '',
         error: null
     },
@@ -27,9 +31,14 @@ export default () => {
     function handleChange(e) {
         const { name, value } = e.target;
         let error = null
-        if(name=="name"){
+        if(name=="firstName"){
             if(value.length<3){
-                error="Name must be at least 3 charecters!"
+                error="First Name must be at least 3 charecters!"
+            }
+        }
+        if(name=="lastName"){
+            if(value.length<3){
+                error="Last Name must be at least 3 charecters!"
             }
         }
         if(name=="email"){
@@ -46,8 +55,8 @@ export default () => {
     }
     const createUser = (e) => {
         e.preventDefault();
-        const { name, email } = state;
-        if(name.error || email.error){
+        const { firstName,lastName, email } = state;
+        if(firstName.error || lastName.error || email.error){
             return null;
         }else{
             console.log('Thanks for Submit')
@@ -60,14 +69,27 @@ export default () => {
             <form onSubmit={createUser}>
             <div>
                 <label>
-                    <span>Name:</span>{' '}
+                    <span>First Name:</span>{' '}
                     <input
-                        name="name"
-                        value={state.name.value}
+                        name="firstName"
+                        value={state.firstName.value}
                         onChange={handleChange}
                     />
-                    {state.name.error !==null &&(
-                        <p>{state.name.error}</p>
+                    {state.firstName.error !==null &&(
+                        <p>{state.firstName.error}</p>
+                    )}
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span>Last Name:</span>{' '}
+                    <input
+                        name="lastName"
+                        value={state.lastName.value}
+                        onChange={handleChange}
+                    />
+                    {state.lastName.error !==null &&(
+                        <p>{state.lastName.error}</p>
                     )}
                 </label>
             </div>
